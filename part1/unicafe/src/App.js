@@ -14,41 +14,44 @@ const Statistics = (props) => {
 		return (
 			<div>
 				<h1> {props.text} </h1>
-				<StatisticLine
-					text={props.buttonValues[0]}
-					number={props.good}
-				/>
-				<StatisticLine
-					text={props.buttonValues[1]}
-					number={props.neutral}
-				/>
-				<StatisticLine
-					text={props.buttonValues[2]}
-					number={props.bad}
-				/>
-				<StatisticLine
-					text={props.buttonValues[3]}
-					number={props.sum}
-				/>
-				<StatisticLine
-					text={props.buttonValues[4]}
-					number={props.avg}
-				/>
-				<StatisticLine
-					text={props.buttonValues[5]}
-					number={props.posPerc}
-				/>
+				<table>
+					<tbody>
+						<StatisticLine
+							text={props.buttonValues[0]}
+							number={props.good}
+						/>
+						<StatisticLine
+							text={props.buttonValues[1]}
+							number={props.neutral}
+						/>
+						<StatisticLine
+							text={props.buttonValues[2]}
+							number={props.bad}
+						/>
+						<StatisticLine
+							text={props.buttonValues[3]}
+							number={props.sum}
+						/>
+						<StatisticLine
+							text={props.buttonValues[4]}
+							number={props.avg}
+						/>
+						<StatisticLine
+							text={props.buttonValues[5]}
+							number={props.posPerc}
+						/>
+					</tbody>
+				</table>
 			</div>
 		);
 	}
 };
 
 const StatisticLine = (props) => (
-	<>
-		<p>
-			{props.text} {props.number}
-		</p>
-	</>
+	<tr>
+		<th>{props.text}</th>
+		<td>{props.number}</td>
+	</tr>
 );
 
 const App = () => {
@@ -68,8 +71,8 @@ const App = () => {
 	];
 
 	const sum = () => good + neutral + bad;
-	const avg = () => (good - bad) / sum();
-	const posPerc = () => (100 * good) / sum() + "%";
+	const avg = () => ((good - bad) / sum()).toFixed(2);
+	const posPerc = () => ((100 * good) / sum()).toFixed(2) + "%";
 
 	return (
 		<>
