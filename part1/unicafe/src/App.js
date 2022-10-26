@@ -2,11 +2,44 @@ import { useState } from "react";
 
 const Heading = ({ text }) => <h1> {text} </h1>;
 const Button = (props) => <button onClick={props.click}>{props.inside}</button>;
+const Statistics = (props) => {
+	return (
+		<div>
+			<h1> {props.text} </h1>
+			<Stats
+				text={props.buttonValues[0]}
+				number={props.good}
+			/>
+			<Stats
+				text={props.buttonValues[1]}
+				number={props.neutral}
+			/>
+			<Stats
+				text={props.buttonValues[2]}
+				number={props.bad}
+			/>
+			<Stats
+				text={props.buttonValues[3]}
+				number={props.sum}
+			/>
+			<Stats
+				text={props.buttonValues[4]}
+				number={props.avg}
+			/>
+			<Stats
+				text={props.buttonValues[5]}
+				number={props.posPerc}
+			/>
+		</div>
+	);
+};
 
 const Stats = (props) => (
-	<p>
-		{props.text} {props.number}
-	</p>
+	<>
+		<p>
+			{props.text} {props.number}
+		</p>
+	</>
 );
 
 const App = () => {
@@ -27,7 +60,8 @@ const App = () => {
 
 	const sum = () => good + neutral + bad;
 	const avg = () => (good - bad) / sum();
-	const posPerc = () => good / sum() + "%";
+	const posPerc = () => (100 * good) / sum() + "%";
+
 	return (
 		<>
 			<Heading text={text[0]} />
@@ -43,13 +77,16 @@ const App = () => {
 				click={() => setBad(bad + 1)}
 				inside={buttonValues[2]}
 			/>
-			<Heading text={text[1]} />
-			<Stats text={buttonValues[0]} number={good} />
-			<Stats text={buttonValues[1]} number={neutral} />
-			<Stats text={buttonValues[2]} number={bad} />
-			<Stats text={buttonValues[3]} number={sum()} />
-			<Stats text={buttonValues[4]} number={avg()} />
-			<Stats text={buttonValues[5]} number={posPerc()} />
+			<Statistics
+				text={text[1]}
+				buttonValues={buttonValues}
+				good={good}
+				neutral={neutral}
+				bad={bad}
+				sum={sum()}
+				avg={avg()}
+				posPerc={posPerc()}
+			/>
 		</>
 	);
 };
