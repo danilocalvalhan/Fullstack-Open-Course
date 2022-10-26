@@ -1,7 +1,24 @@
 import { useState } from "react";
 
-const Anecdotes = ({ anecdotes }) => <p> {anecdotes} </p>;
+const Anecdotes = ({ anecdotes }) => {
+	return (
+		<>
+			<h1> Anecdote of the day </h1>
+			<p> {anecdotes} </p>
+		</>
+	);
+};
+
 const Votes = ({ votes }) => <p> Has {votes} votes </p>;
+
+const MostVotedAnecdotes = ({ anecdotes }) => {
+	return (
+		<>
+			<h1>Anecdote with most votes </h1>
+			<p> {anecdotes} </p>
+		</>
+	);
+};
 
 const Button = (props) => {
 	return (
@@ -25,6 +42,7 @@ const App = () => {
 
 	const [selected, setSelected] = useState(0);
 	const [votes, setVotes] = useState(Array(7).fill(0));
+
 	const anecdoteChange = () => {
 		let randomNum = Math.floor(Math.random() * 7);
 		while (randomNum === selected) {
@@ -38,12 +56,17 @@ const App = () => {
 		return setVotes(votesCount);
 	};
 
+	const mostVoted = Math.max(...votes);
+	const mostVotedIndex = votes.indexOf(mostVoted);
+
 	return (
 		<div>
 			<Anecdotes anecdotes={anecdotes[selected]} />
 			<Votes votes={votes[selected]} />
 			<Button click={votesChange} text="vote" />
 			<Button click={anecdoteChange} text="next anecdote" />
+			<MostVotedAnecdotes anecdotes={anecdotes[mostVotedIndex]} />
+			<Votes votes={mostVoted} />
 		</div>
 	);
 };
