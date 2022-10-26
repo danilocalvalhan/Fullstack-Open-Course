@@ -3,35 +3,44 @@ import { useState } from "react";
 const Heading = ({ text }) => <h1> {text} </h1>;
 const Button = (props) => <button onClick={props.click}>{props.inside}</button>;
 const Statistics = (props) => {
-	return (
-		<div>
-			<h1> {props.text} </h1>
-			<Stats
-				text={props.buttonValues[0]}
-				number={props.good}
-			/>
-			<Stats
-				text={props.buttonValues[1]}
-				number={props.neutral}
-			/>
-			<Stats
-				text={props.buttonValues[2]}
-				number={props.bad}
-			/>
-			<Stats
-				text={props.buttonValues[3]}
-				number={props.sum}
-			/>
-			<Stats
-				text={props.buttonValues[4]}
-				number={props.avg}
-			/>
-			<Stats
-				text={props.buttonValues[5]}
-				number={props.posPerc}
-			/>
-		</div>
-	);
+	if (props.good === 0 && props.neutral === 0 && props.bad === 0) {
+		return (
+			<div>
+				<h1> {props.text} </h1>
+				<p> No feedback given </p>
+			</div>
+		);
+	} else {
+		return (
+			<div>
+				<h1> {props.text} </h1>
+				<Stats
+					text={props.buttonValues[0]}
+					number={props.good}
+				/>
+				<Stats
+					text={props.buttonValues[1]}
+					number={props.neutral}
+				/>
+				<Stats
+					text={props.buttonValues[2]}
+					number={props.bad}
+				/>
+				<Stats
+					text={props.buttonValues[3]}
+					number={props.sum}
+				/>
+				<Stats
+					text={props.buttonValues[4]}
+					number={props.avg}
+				/>
+				<Stats
+					text={props.buttonValues[5]}
+					number={props.posPerc}
+				/>
+			</div>
+		);
+	}
 };
 
 const Stats = (props) => (
