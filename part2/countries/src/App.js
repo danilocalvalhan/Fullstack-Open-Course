@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import ShowCountries from './components/ShowCountries'
+import ShowCountries from "./components/ShowCountries";
 
 const App = () => {
 	const [countries, setCountries] = useState([]);
@@ -12,14 +12,18 @@ const App = () => {
 
 	useEffect(() => {
 		axios.get("https://restcountries.com/v3.1/all").then((response) => {
-			//	console.log(response.data.map( country => country.name.common))
 			setCountries(response.data);
 		});
 	}, []);
+
 	return (
 		<div>
 			find countries <input onChange={handleInput} />
-			<ShowCountries show={countries} search={newInput} />
+			<ShowCountries
+				show={countries}
+				search={newInput}
+				changeInput={setNewInput}
+			/>
 		</div>
 	);
 };
