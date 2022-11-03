@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ShowCountries from "./components/ShowCountries";
 
+const api_key = process.env.REACT_APP_API_KEY
+
 const App = () => {
 	const [countries, setCountries] = useState([]);
 	const [newInput, setNewInput] = useState("");
-
 	const handleInput = (event) => {
 		setNewInput(event.target.value);
 	};
@@ -23,6 +24,7 @@ const App = () => {
 				show={countries}
 				search={newInput}
 				changeInput={setNewInput}
+				api={api_key}
 			/>
 		</div>
 	);
