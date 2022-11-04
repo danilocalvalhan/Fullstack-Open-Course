@@ -9,11 +9,8 @@ const App = () => {
 	const [newName, setNewName] = useState("");
 	const [newNumber, setNewNumber] = useState("");
 	const [newFilter, setNewFilter] = useState("");
-
 	useEffect(() => {
-		numbersService
-			.getAll()
-			.then(response => setPersons(response));
+		numbersService.getAll().then((response) => setPersons(response));
 	}, []);
 
 	const addPerson = (event) => {
@@ -32,13 +29,11 @@ const App = () => {
 					name: newName,
 					number: newNumber,
 				};
-				numbersService	
-					.create(personObj)
-					.then(response => {
-						setPersons(persons.concat(response));
-						setNewName("");
-						setNewNumber("");
-					});
+				numbersService.create(personObj).then((response) => {
+					setPersons(persons.concat(response));
+					setNewName("");
+					setNewNumber("");
+				});
 			}
 		}
 	};
@@ -66,7 +61,11 @@ const App = () => {
 				addPerson={addPerson}
 			/>
 			<h3>Numbers</h3>
-			<Numbers numbers={numberToShow} />
+			<Numbers
+				numbers={numberToShow}
+				persons={persons}
+				setPersons={setPersons}
+			/>
 		</div>
 	);
 };
