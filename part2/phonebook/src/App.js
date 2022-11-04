@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Numbers from "./components/Numbers";
@@ -10,12 +10,12 @@ const App = () => {
 	const [newNumber, setNewNumber] = useState("");
 	const [newFilter, setNewFilter] = useState("");
 
-	useEffect( () => {
+	useEffect(() => {
 		axios
-			.get('http://localhost:3001/persons')
-			.then( response => setPersons(response.data))
-	}, [] )
-	
+			.get("http://localhost:3001/persons")
+			.then((response) => setPersons(response.data));
+	}, []);
+
 	const addPerson = (event) => {
 		event.preventDefault();
 		if (newName === "" || newNumber === "") {
@@ -26,18 +26,19 @@ const App = () => {
 				.includes(newName);
 
 			if (newPersonAlreadyInPhonebook) {
-				alert(
-					`${newName} is already added to phonebook`
-				);
+				alert(`${newName} is already added to phonebook`);
 			} else {
 				const personObj = {
 					name: newName,
 					number: newNumber,
-					id: persons.length + 1,
 				};
-				setPersons(persons.concat(personObj));
-				setNewName("");
-				setNewNumber("");
+				axios
+					.post("http://localhost:3001/persons", personObj)
+					.then((response) => {
+						setPersons(persons.concat(response.data));
+						setNewName("");
+						setNewNumber("");
+					});
 			}
 		}
 	};
@@ -45,9 +46,7 @@ const App = () => {
 	const numberToShow = !newFilter
 		? persons
 		: persons.filter((person) =>
-				person.name
-					.toLowerCase()
-					.includes(newFilter.toLowerCase())
+				person.name.toLowerCase().includes(newFilter.toLowerCase())
 		  );
 
 	const changeName = (event) => setNewName(event.target.value);
@@ -57,10 +56,7 @@ const App = () => {
 	return (
 		<div>
 			<h2>Phonebook</h2>
-			<Filter
-				newFilter={newFilter}
-				changeFilter={changeFilter}
-			/>
+			<Filter newFilter={newFilter} changeFilter={changeFilter} />
 			<h3>Add a new</h3>
 			<PersonForm
 				newName={newName}
