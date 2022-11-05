@@ -18,17 +18,40 @@ const App = () => {
 		if (newName === "" || newNumber === "") {
 			alert("Enter a new name and a new number");
 		} else {
-			const newPersonAlreadyInPhonebook = persons
-				.map((person) => person.name)
-				.includes(newName);
+			const personRepeated = persons.find(
+				(pers) =>
+					pers.name.toLowerCase().trim() ===
+					newName.toLowerCase().trim()
+			);
 
-			if (newPersonAlreadyInPhonebook) {
-				alert(`${newName} is already added to phonebook`);
+			if (personRepeated) {
+				const personObj = {
+					...personRepeated,
+					number: newNumber.trim(),
+				};
+				if (
+					window.confirm(
+						`${personObj.name} is already added to phonebook, replace the old number with a new one?`
+					)
+				) {
+					numbersService
+						.update(personObj.id, personObj)
+						.then((response) => {
+							setPersons(
+								persons.map((p) =>
+									p.id !== personObj.id ? p : response
+								)
+							);
+							setNewName("");
+							setNewNumber("");
+						});
+				}
 			} else {
 				const personObj = {
-					name: newName,
-					number: newNumber,
+					name: newName.trim(),
+					number: newNumber.trim(),
 				};
+
 				numbersService.create(personObj).then((response) => {
 					setPersons(persons.concat(response));
 					setNewName("");
