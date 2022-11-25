@@ -10,7 +10,8 @@ const App = () => {
 	const [newName, setNewName] = useState("");
 	const [newNumber, setNewNumber] = useState("");
 	const [newFilter, setNewFilter] = useState("");
-	const [newNotification, setNewNotification ] = useState(null);
+	const [newNotification, setNewNotification] = useState(null);
+	const [errorNotification, setErrorNotification] = useState(null);
 	useEffect(() => {
 		numbersService.getAll().then((response) => setPersons(response));
 	}, []);
@@ -48,10 +49,19 @@ const App = () => {
 							setNewNumber("");
 							setNewNotification(
 								`Updated ${personObj.name} number`
-							)
-							setTimeout( () => {
-								setNewNotification(null)}, 4000
-							)
+							);
+							setTimeout(() => {
+								setNewNotification(null);
+							}, 4000);
+						})
+						.catch((error) => {
+							setErrorNotification(personObj.name);
+							setPersons(
+								persons.filter((p) => p.id !== personObj.id)
+							);
+							setTimeout(() => {
+								setErrorNotification(null);
+							}, 5000);
 						});
 				}
 			} else {
@@ -64,12 +74,10 @@ const App = () => {
 					setPersons(persons.concat(response));
 					setNewName("");
 					setNewNumber("");
-					setNewNotification(
-						`Added ${personObj.name} number`
-					)
-					setTimeout( () => {
-						setNewNotification(null)}, 4000
-					)
+					setNewNotification(`Added ${personObj.name} number`);
+					setTimeout(() => {
+						setNewNotification(null);
+					}, 4000);
 				});
 			}
 		}
@@ -88,7 +96,8 @@ const App = () => {
 	return (
 		<div>
 			<h2>Phonebook</h2>
-			<Notification message={newNotification} />
+			<Notification.NotificationOK message={newNotification} />
+			<Notification.ErrorNotification errorMsg={errorNotification} />
 			<Filter newFilter={newFilter} changeFilter={changeFilter} />
 			<h3>Add a new</h3>
 			<PersonForm

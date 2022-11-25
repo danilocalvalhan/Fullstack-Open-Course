@@ -8,11 +8,21 @@ const notificationStyle = {
 	marginBottom: 25,
 };
 
+const errorNotificationStyle = {
+	fontSize: 16,
+	fontWeight: "bold",
+	color: "red",
+	backgroundColor: "lightGray",
+	borderStyle: "solid",
+	borderRadius: 5,
+	marginBottom: 25,
+};
+
 const messageStyle = {
 	paddingLeft: 15,
 };
 
-const Notification = ({ message }) => {
+const NotificationOK = ({ message }) => {
 	if (message === null) {
 		return null;
 	} else {
@@ -24,4 +34,19 @@ const Notification = ({ message }) => {
 	}
 };
 
+const ErrorNotification = ({ errorMsg }) => {
+	if (errorMsg === null) {
+		return null;
+	} else {
+		return (
+			<div style={errorNotificationStyle}>
+				<p style={messageStyle}>
+					{`Information of ${errorMsg} has already been removed from server`}
+				</p>
+			</div>
+		);
+	}
+};
+
+const Notification = { NotificationOK, ErrorNotification };
 export default Notification;
